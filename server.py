@@ -18,6 +18,7 @@ print(f"Server is listening on {HOST}:{PORT}")
 # define the game board
 board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
 
+
 # function to print the game board
 def print_board():
     print(f"{board[0]}|{board[1]}|{board[2]}")
@@ -26,13 +27,14 @@ def print_board():
     print("-+-+-")
     print(f"{board[6]}|{board[7]}|{board[8]}")
 
+
 # function to check if the game has ended
 def game_ended():
     for i in range(0, 9, 3):
-        if board[i] == board[i+1] == board[i+2] and board[i] != " ":
+        if board[i] == board[i + 1] == board[i + 2] and board[i] != " ":
             return True
     for i in range(0, 3):
-        if board[i] == board[i+3] == board[i+6] and board[i] != " ":
+        if board[i] == board[i + 3] == board[i + 6] and board[i] != " ":
             return True
     if board[0] == board[4] == board[8] and board[0] != " ":
         return True
@@ -42,12 +44,15 @@ def game_ended():
         return True
     return False
 
+
 # function to play the game
 def play_game(conn1, conn2):
+
     # send initial board state to clients
     conn1.send("START".encode())
     conn1.send(str.encode(str(board)))
     conn2.send("START".encode())
+    #board = ''.join(board)
     conn2.send(str.encode(str(board)))
 
     # alternate turns between players
@@ -89,9 +94,10 @@ def play_game(conn1, conn2):
     conn1.close()
     conn2.close()
 
+
 # accept connections from clients
 conn1, addr1 = server_socket.accept()
 print(f"Player 1 connected from {addr1}")
 conn2, addr2 = server_socket.accept()
 print(f"Player 2 connected from {addr2}")
-play_game(conn1,conn2)
+play_game(conn1, conn2)
